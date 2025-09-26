@@ -3,7 +3,15 @@ import sys
 
 from stats import get_word_count, get_all_chars_counts, sort_all_char_data
 
-def get_book_text(file_path:str=None):
+def get_book_text(file_path:str) -> str:
+    """Return contents of the a valid utf-8 encoded file.
+
+    Args:
+        file_path (str): /path/to/file. Can be relative.
+
+    Returns:
+        str: content of file encoded utf-8
+    """
     fd = os.open(file_path, os.O_RDONLY, 0o644) 
     file_size = os.fstat(fd).st_size
     content = os.pread(fd, file_size, 0).decode('utf-8')
@@ -13,13 +21,13 @@ def get_book_text(file_path:str=None):
 def generate_report(sorted_data, file_path, word_count):
     """Generate a report str for console output.
 
-    Arguments:
-        - sorted_data(dict): dictionary of k=char and v=count. EX: {'c':101}
-        - file_path(str): /path/to/file 
-        - word_count(int): total word count
+    Args:
+        sorted_data (dict): dictionary of k=char and v=count. EX: {'c':101}
+        file_path (str): /path/to/file 
+        word_count (int): total word count
 
     Returns:
-        report_str(str): formatted str based on args.
+        str: formatted str based on args.
     """
 
     report_str = "============ BOOKBOT ============\n" + \
@@ -35,6 +43,7 @@ def generate_report(sorted_data, file_path, word_count):
 
 if __name__=="__main__":
 
+    # Check that a filepath was provided.
     if len(sys.argv) < 2:
         print("Usage: python3 main.py <path_to_book>")
         sys.exit(1)
